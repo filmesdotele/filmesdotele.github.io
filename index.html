@@ -276,6 +276,10 @@ function normalizar(str) {
     .replace(/[^a-z0-9\s]/g, ' ');
 }
 
+function tituloExibicao(f) {
+  return f.a ? `${f.t} (${f.a})` : f.t;
+}
+
 function renderCards(itens, inicio, fim) {
   const frag = document.createDocumentFragment();
   for (let i = inicio; i < Math.min(fim, itens.length); i++) {
@@ -289,7 +293,7 @@ function renderCards(itens, inicio, fim) {
       <div class="card-left">
         <span class="card-num">${i+1}</span>
         <span class="card-icon">🎬</span>
-        <span class="card-title">${f.t}</span>
+        <span class="card-title">${tituloExibicao(f)}</span>
       </div>
       <span class="card-arrow">→</span>
     `;
@@ -320,7 +324,7 @@ busca.addEventListener('input', () => {
     }
     const termos = q.split(/\s+/);
     const res = FILMES.filter(f => {
-      const nt = normalizar(f.t);
+      const nt = normalizar(f.a ? `${f.t} ${f.a}` : f.t);
       return termos.every(t => nt.includes(t));
     });
     resetLista(res);
